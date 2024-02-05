@@ -1,0 +1,4 @@
+Download these models and put them here:
+
+irismix_v90.safetensors
+cartoonArcadiaSDXLSD1_xenoArcadiaCX.safetensors

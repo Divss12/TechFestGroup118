@@ -1,0 +1,5 @@
+python_embedded folder from ComfyUI goes here.
+
+if any library is missing you may have to install using:
+
+ <path/to/python.exe> -m pip install <library>

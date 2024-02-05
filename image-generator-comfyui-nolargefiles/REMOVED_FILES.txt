@@ -1,0 +1,9 @@
+Large files were removed from 
+
+ComfyUI/models/checkpoints/
+and
+ComfyUI/models/loras/
+
+
+
+python_embedded folder from ComfyUI needed
