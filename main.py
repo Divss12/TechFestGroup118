@@ -4,7 +4,7 @@ import threading
 import os
 from PIL import Image, ImageTk
 
-# from image_generator_comfyui_nolargefiles import generate_portraits, generate_background
+from image_generator_comfyui_nolargefiles import generate_portraits
 from DnDGameClasses import DnDGameMaster
 
 
@@ -21,7 +21,7 @@ def run_generate_portraits():
                 "boy",
             ]
         }
-        # generate_portraits.main(test_json)
+        generate_portraits.main(test_json)
         messagebox.showinfo("Success", "Portrait generation completed successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to generate portrait. Error: {str(e)}")
