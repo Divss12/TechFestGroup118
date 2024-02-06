@@ -1,0 +1,1 @@
+.\image_generator_comfyui\python_embeded\python.exe -s main.py

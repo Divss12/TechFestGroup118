@@ -3,8 +3,13 @@ from tkinter import Label, scrolledtext, messagebox, filedialog, ttk
 import threading
 import os
 from PIL import Image, ImageTk
+#import sys
 
-from image_generator_comfyui_nolargefiles import generate_portraits
+#sys.path.append("D:\\Fake Desktop\\Fake Desktop\\PROJECTS\\AI ART\\TechFestGroup118")
+
+
+#import generate_portraits
+#import generate_background
 from DnDGameClasses import DnDGameMaster
 
 
@@ -13,7 +18,7 @@ def display_prompt(message):
 
 
 def run_generate_portraits():
-    display_prompt("Generating portrait with prompts...")
+    display_prompt("Generating portrait with preset prompts...")
     try:
         test_json = {
             "Sorceress": [
@@ -21,16 +26,18 @@ def run_generate_portraits():
                 "boy",
             ]
         }
-        # generate_portraits.main(test_json)
+        #generate_portraits.main(test_json)
+        os.system(".\image_generator_comfyui\python_embeded\python.exe -s .\image_generator_comfyui\generate_portraits.py")
         messagebox.showinfo("Success", "Portrait generation completed successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to generate portrait. Error: {str(e)}")
 
 
 def run_generate_backgrounds():
-    display_prompt("Generating background with prompts...")
+    display_prompt("Generating background with preset prompts...")
     try:
-        # generate_background.main()  # Add appropriate arguments as needed
+        #generate_background.main()  # Add appropriate arguments as needed
+        os.system(".\image_generator_comfyui\python_embeded\python.exe -s .\image_generator_comfyui\generate_background.py")
         messagebox.showinfo("Success", "Background generation completed successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to generate background. Error: {str(e)}")
@@ -68,7 +75,7 @@ def resize_image_aspect_ratio(image, max_width, max_height, resample=Image.BICUB
 
 
 def select_latest_image():
-    output_folder = "image_generator_comfyui_nolargefiles/ComfyUI/output"
+    output_folder = "image_generator_comfyui/ComfyUI/output"
     try:
         # List all files in the output folder and find the newest (last modified) image
         files = [os.path.join(output_folder, f) for f in os.listdir(output_folder)]
