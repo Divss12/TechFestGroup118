@@ -55,6 +55,7 @@ class DnDGameMaster:
         Main entry point for processing user input based on the current game state.
 
         """
+        # return self.process_message(message)
         if self.state == "world_selection":
             return self.handle_world_selection(message)
         elif self.state == "scenario_narration":
@@ -84,27 +85,47 @@ class DnDGameMaster:
                         "Welcome to AI Dungeons & Dragons! Please choose a world setting for your DnD quest: 1. The Shattered Isles 2. Jungle World 3. The Frozen Wastes"
                     ),
                     HumanMessagePromptTemplate.from_template(
-                        f"Your choice: {selected_world}"
+                        "Your choice: {user_input} - " + selected_world
                     ),
                     MessagesPlaceholder(variable_name="chat_history"),
+                    SystemMessage(
+                        content="Please generate 3 character options for the player to choose from. keep the details breif and short."
+                    ),
                 ]
-            )
-            prompt_template = self.prompt_template.append(
-                SystemMessage(
-                    content="Please generate 3 character options for the player to choose from. keep the de1tails breif and short."
-                ),
             )
             self.chain = LLMChain(
                 llm=self.llm,
                 memory=self.memory,
                 verbose=True,
-                prompt=prompt_template,
+                prompt=self.prompt_template,
             )
-            response = self.chain.predict()
-            self.prompt_template = self.prompt_template.append(
-                SystemMessage(
-                    content=f"Based on the world setting, and the player's actions, continue to generate the scenario and narrative for the DnD quest. "
-                ),
+            response = self.chain.predict(user_input=message)
+
+            # update game state
+            self.prompt_template = self.prompt_template = (
+                ChatPromptTemplate.from_messages(
+                    [
+                        SystemMessage(
+                            content="You are a Game Master of a Dungeons and Dragons Quest."
+                        ),
+                        AIMessagePromptTemplate.from_template(
+                            "Welcome to AI Dungeons & Dragons! Please choose a world setting for your DnD quest: 1. The Shattered Isles 2. Jungle World 3. The Frozen Wastes"
+                        ),
+                        HumanMessagePromptTemplate.from_template(
+                            "Your choice: {user_input} - " + selected_world
+                        ),
+                        MessagesPlaceholder(variable_name="chat_history"),
+                        SystemMessage(
+                            content="Please continue to narrate the DnD story based on the chosen settings, player character choice and the subsequent action choices."
+                        ),
+                    ]
+                )
+            )
+            self.chain = LLMChain(
+                llm=self.llm,
+                memory=self.memory,
+                verbose=True,
+                prompt=self.prompt_template,
             )
             self.state = "scenario_narration"  # update game state
             return response
