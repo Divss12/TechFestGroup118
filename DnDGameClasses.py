@@ -75,7 +75,6 @@ class DnDGameMaster:
 
             selected_world = self.world_settings[user_choice]
             self.world_setting = selected_world
-            # This will be the new prompt template for subsequent states
             self.prompt_template = ChatPromptTemplate.from_messages(
                 [
                     SystemMessage(
@@ -129,9 +128,8 @@ class DnDGameMaster:
             )
             self.state = "scenario_narration"  # update game state
             return response
-
         except ValueError:
-            return "Invalid input. Please enter a number (1, 2, or 3)."
+            return "Invalid choice. Please select 1, 2, or 3."
 
         except Exception as e:
             return f"An unexpected error occurred: {e}. Please try again."

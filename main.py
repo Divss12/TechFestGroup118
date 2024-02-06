@@ -13,7 +13,7 @@ def display_prompt(message):
 
 
 def run_generate_portraits():
-    display_prompt("Generating portrait with preset prompts...")
+    display_prompt("Generating portrait with prompts...")
     try:
         test_json = {
             "Sorceress": [
@@ -21,14 +21,14 @@ def run_generate_portraits():
                 "boy",
             ]
         }
-        generate_portraits.main(test_json)
+        # generate_portraits.main(test_json)
         messagebox.showinfo("Success", "Portrait generation completed successfully.")
     except Exception as e:
         messagebox.showerror("Error", f"Failed to generate portrait. Error: {str(e)}")
 
 
 def run_generate_backgrounds():
-    display_prompt("Generating background with preset prompts...")
+    display_prompt("Generating background with prompts...")
     try:
         # generate_background.main()  # Add appropriate arguments as needed
         messagebox.showinfo("Success", "Background generation completed successfully.")
