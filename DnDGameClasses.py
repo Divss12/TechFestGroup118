@@ -1,4 +1,5 @@
 from langchain_community.chat_models import ChatOllama
+from langchain_community.llms.gpt4all import GPT4All
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import (
     ChatPromptTemplate,
@@ -22,13 +23,16 @@ class DnDGameMaster:
         }
 
         self.llm = ChatOllama(model="llama2")
+        # self.llm = GPT4All(
+        #     model="/Users/kohjunkai/Library/Application Support/nomic.ai/GPT4All/"
+        # )
         self.memory = ConversationBufferMemory(
             memory_key="chat_history", return_messages=True
         )
         self.prompt_template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content="You are a Game Master of a Dungeons and Dragons Quest."
+                    content="You are a Game Master of a Dungeons and Dragons Quest. You create beautiful and immersive worlds for your players to explore."
                 ),  # The persistent system prompt
                 MessagesPlaceholder(
                     variable_name="chat_history"
@@ -78,7 +82,7 @@ class DnDGameMaster:
             self.prompt_template = ChatPromptTemplate.from_messages(
                 [
                     SystemMessage(
-                        content="You are a Game Master of a Dungeons and Dragons Quest."
+                        content="You are a Game Master of a Dungeons and Dragons Quest. You create beautiful and immersive worlds for your players to explore."
                     ),
                     AIMessagePromptTemplate.from_template(
                         "Welcome to AI Dungeons & Dragons! Please choose a world setting for your DnD quest: 1. The Shattered Isles 2. Jungle World 3. The Frozen Wastes"
