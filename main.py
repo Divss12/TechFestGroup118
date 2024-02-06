@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import Label, scrolledtext, messagebox, filedialog
+from tkinter import Label, scrolledtext, messagebox, filedialog, ttk
 import threading
 import os
 from PIL import Image, ImageTk
@@ -168,21 +168,33 @@ game_master = DnDGameMaster()
 app = tk.Tk()
 app.title("AI Dungeons & Dragons")
 
+# Set the theme for light mode
+style = ttk.Style()
+style.theme_use("clam")
+
+light_background = "#FFFFFF"
+dark_text = "#000000"
+input_background = "#F0F0F0"
+button_color = "#E1E1E1"
+
 # Configure the grid layout
+app.configure(background=light_background)
 app.grid_rowconfigure(0, weight=1)
 app.grid_columnconfigure(0, weight=3)
 app.grid_columnconfigure(1, weight=2)
 
 # Left side frame for chat and controls
-left_frame = tk.Frame(app)
+left_frame = tk.Frame(app, bg=light_background, padx=10, pady=10)
 left_frame.grid(row=0, column=0, sticky="nsew")
 left_frame.grid_rowconfigure(1, weight=1)  # Allow chat history to expand
 
 # Right side for image display
-image_label = Label(app)
+image_label = Label(app, bg=light_background)
 
 # Chat History Box
-chat_history = scrolledtext.ScrolledText(left_frame, state="disabled", height=30)
+chat_history = scrolledtext.ScrolledText(
+    left_frame, state="disabled", height=30, bg=light_background, fg=dark_text
+)
 chat_history.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 chat_history.tag_configure("user", foreground="blue", font=("Helvetica", 14, ""))
 chat_history.tag_configure("ai", foreground="green", font=("Helvetica", 14, "bold"))
