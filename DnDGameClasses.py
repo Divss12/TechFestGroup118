@@ -1,4 +1,5 @@
 from langchain_community.chat_models import ChatOllama
+from langchain_community.llms.gpt4all import GPT4All
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import (
     ChatPromptTemplate,
@@ -22,13 +23,16 @@ class DnDGameMaster:
         }
 
         self.llm = ChatOllama(model="llama2")
+        # self.llm = GPT4All(
+        #     model="/Users/kohjunkai/Library/Application Support/nomic.ai/GPT4All/"
+        # )
         self.memory = ConversationBufferMemory(
             memory_key="chat_history", return_messages=True
         )
         self.prompt_template = ChatPromptTemplate.from_messages(
             [
                 SystemMessage(
-                    content="You are a Game Master of a Dungeons and Dragons Quest."
+                    content="You are a Game Master of a Dungeons and Dragons Quest. You create beautiful and immersive worlds for your players to explore."
                 ),  # The persistent system prompt
                 MessagesPlaceholder(
                     variable_name="chat_history"
@@ -75,11 +79,10 @@ class DnDGameMaster:
 
             selected_world = self.world_settings[user_choice]
             self.world_setting = selected_world
-            # This will be the new prompt template for subsequent states
             self.prompt_template = ChatPromptTemplate.from_messages(
                 [
                     SystemMessage(
-                        content="You are a Game Master of a Dungeons and Dragons Quest."
+                        content="You are a Game Master of a Dungeons and Dragons Quest. You create beautiful and immersive worlds for your players to explore."
                     ),
                     AIMessagePromptTemplate.from_template(
                         "Welcome to AI Dungeons & Dragons! Please choose a world setting for your DnD quest: 1. The Shattered Isles 2. Jungle World 3. The Frozen Wastes"
@@ -129,9 +132,8 @@ class DnDGameMaster:
             )
             self.state = "scenario_narration"  # update game state
             return response
-
         except ValueError:
-            return "Invalid input. Please enter a number (1, 2, or 3)."
+            return "Invalid choice. Please select 1, 2, or 3."
 
         except Exception as e:
             return f"An unexpected error occurred: {e}. Please try again."
